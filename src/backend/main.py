@@ -37,5 +37,5 @@ async def login(request: LoginRequest):
         return {
         "success": True,
         "message": "Inicio de sesión exitoso",
-        "usuario": user["nombre"]  # <- este campo SÍ existe ahora
+        "usuario": user["nombre"]  
     }
