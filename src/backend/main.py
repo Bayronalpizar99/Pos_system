@@ -1,10 +1,15 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from supabase import create_client, Client
+import os
+from dotenv import load_dotenv
+
+# Cargar variables de entorno desde .env
+load_dotenv()
 
 # Configuración de Supabase
-SUPABASE_URL = "https://ptllkoytbciishtpimtj.supabase.co"  # URL del proyecto
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB0bGxrb3l0YmNpaXNodHBpbXRqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ0MzM5NjgsImV4cCI6MjA2MDAwOTk2OH0.UGI_BrCl29dP9D9q7Q-9HW-tukdQ9EtImwfJeEnRb6I"  # Clave service_role
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # Inicializar FastAPI
@@ -35,7 +40,9 @@ async def login(request: LoginRequest):
     if response.data:
         user = response.data[0]
         return {
-        "success": True,
-        "message": "Inicio de sesión exitoso",
-        "usuario": user["nombre"]  
-    }
+            "success": True,
+            "message": "Inicio de sesión exitoso",
+            "usuario": user["nombre"]
+        }
+    else:
+        raise HTTPException(status_code=401, detail="Credenciales incorrectas")
