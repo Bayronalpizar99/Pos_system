@@ -9,7 +9,7 @@ const Login = ({ setIsAuthenticated }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch('http://127.0.0.1:8000/login', {
+        const response = await fetch('http://127.0.0.1:8000/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -19,6 +19,7 @@ const Login = ({ setIsAuthenticated }) => {
           password,
         }),
       });
+      
       if (response.ok) {
         const data = await response.json();
         alert(`Bienvenido al sistema, ${data.usuario}`);
